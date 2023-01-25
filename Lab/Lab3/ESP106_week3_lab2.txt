@@ -1,0 +1,27 @@
+ESP106 --- Week 3 --- Part 2
+
+1) create a github account (if you do not have one)
+
+2) create a new (private) repository called "esp106-your_name" (fill in your name or part of it)
+
+3) add Robert (rhijmans) and Judy as collaborators to that repository
+
+4) use git to clone the repo to your computer
+
+5) put the R file from the Monday lab in the repo folder
+
+6) use git to add, commit and push
+
+7) put a new (blank) R markdown file in the repo folder
+
+8) add, commit and push
+
+9) edit the readme for the repo on github.com
+
+10) pull the changed readme to your local repo
+
+11) transfer Monday's lab to the Rmarkdown file. Use nice markup (sections, bold, ...) and ample English.
+commit changes frequently (e.g. after each question). 
+
+12) push when you are done. Make sure that the Rmarkdown file compiles. That will be a strict requirement for a good grade. If there are parts of the code that you cannot get to work --- and that will likely happen now or later --- you can, for example, use code chunk option `eval=FALSE`. 
+
