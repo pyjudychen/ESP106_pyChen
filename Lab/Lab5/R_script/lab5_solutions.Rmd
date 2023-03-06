@@ -1,0 +1,104 @@
+---
+title: "Lab 5_Solutions"
+author: "Fran M"
+output: html_document
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+require("knitr")
+opts_knit$set(root.dir = "C:\\Users\\fmoore\\Box\\Davis Stuff\\Teaching\\ESP 106\\2020\\Lab 5 Materials\\")
+```
+
+## Lab 5
+
+### Recommended to complete this before starting the midterm
+
+This lab we will look at some data from the plastic trash piced up during clean-up events around the world. I stole this dataset from the Tidy Tuesday website. You can read the documentation [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-01-26/readme.md), including the references and description of the different column names.
+
+I have done some pre-processing of the data for you for this lab, to create two more easy-to-use dataframes.
+
+First read in the countrytotals.csv data frame
+```{r echo=FALSE}
+
+countrytotal=read.csv("countrytotals.csv")
+
+```
+
+Have a look at the data frame. Then column "total" gives the total number of pieces of plastic picked up in that country in 2020. The columns "num_events" and "volunteers" give the number of trash pick-up events and the number of volunteers in that country. We are going to use this to investigate where the plastic trash problem is worst.
+
+1. What 5 countries had the worst plastic problem as measured by the number of pieces of trash picked up?
+
+```{r echo=FALSE}
+
+#hint order(datacolumn, decreasing=TRUE) will give you the ranking of the countries by the values in the data column
+#you can use this to re-order the country data frame, ordering it from the country with the most trash picked up to the least
+
+ordered=countrytotal[order(countrytotal$total,decreasing = TRUE),] #decreasing order by number of plastic trash picked up
+top5=ordered$country[1:5] #get the top 5 countries
+print(top5)
+
+```
+
+**Answer:** Nigeria, Philippines, Switzerland, India and Togo
+
+2. Make a histogram showing the distribution of volunteers in each country
+
+```{r echo=FALSE}
+
+hist(countrytotal$volunteers,xlab="Number of Volunteers",ylab="Frequency",main="Distribution of Numnber of Volunteers")
+
+```
+
+3. Notice that there is a lot of variation across countries in the number of volunteers involved in trash pickup. What problem might that cause for the interpretation of your answer to question 1?
+
+**Answer:** Total trash picked up probably depends on both the intensity of the pick-up effort and the amount of plastic pollution. Therefore, the countries identified in question 1 might not have the worst plastic pollution, they just might be doing a lot to pick it up.
+
+4. Add a column to the data frame creating a variable that should be more closely related to the presence of plastic pollution in the country
+
+```{r echo=FALSE}
+
+countrytotal$totalpervolunteer=countrytotal$total/countrytotal$volunteers
+
+```
+
+5. What 5 countries have the worst plastic pollution, as measured by this new variable?
+
+```{r echo=FALSE}
+
+ordered2=countrytotal[order(countrytotal$totalpervolunteer,decreasing=TRUE),]
+top5_2=ordered2$country[1:5]
+print(top5_2)
+
+```
+
+**Answer:** Togo, El Salvador, Japan, Kuwait, Germany
+
+Now we will make a plot of the variation in the types of trash and how it differs around the world. Read in the continenttypes.csv data frame. This gives the breakdown of the different types of plastic collected on each continet in 2020 and the total number of pick up events.
+
+```{r echo=FALSE}
+
+dat=read.csv("continenttypes.csv")
+
+```
+
+6. Add a column to this data frame with a variable that captures the existence of different types of plastic trash, controlling for the intensity of the pick-up effort in different countries
+
+```{r echo=FALSE}
+
+dat$totalperevent=dat$total/dat$event
+
+```
+
+7. Make a plot using ggplot showing both the total amount and distribution of types of plastic picked up in each continent in the average pick-up event.
+
+Hint: Check out options in the [R graph gallery](https://www.r-graph-gallery.com)
+
+```{r echo=FALSE}
+library(ggplot2)
+a=ggplot(dat,aes(x=continent,y=totalperevent,fill=plastic_type))+geom_bar(position="stack",stat="identity")
+a=a+theme_bw()+labs(x="Continent",y="Pieces per Event",fill="Plastic Type")
+a
+
+```
+
+8. Try uploading your R markdown file and plot to your Git Hub repository
